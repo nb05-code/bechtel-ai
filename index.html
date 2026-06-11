@@ -112,6 +112,50 @@
   </div>
 </section>
 
+<section id="demo" style="background:#fff;border-top:1px solid #e5e7eb">
+  <div class="wrap" style="max-width:760px">
+    <h2>Testen Sie es selbst — 30 Sekunden</h2>
+    <p style="text-align:center;color:var(--muted);margin-bottom:28px">Wählen Sie eine typische Portal-Anfrage. Die KI qualifiziert sie sofort — so wie sie es später mit Ihren echten Anfragen tut. (Demo-Simulation)</p>
+    <div style="display:grid;gap:10px;margin-bottom:20px">
+      <button class="demo-btn" data-case="0">„Hallo, ist die Wohnung noch frei? Was kostet sie?"</button>
+      <button class="demo-btn" data-case="1">„Guten Tag, wir suchen eine 4-Zi-Wohnung bis 650.000 €, Finanzierungszusage der Sparkasse liegt vor. Besichtigung möglichst diese Woche."</button>
+      <button class="demo-btn" data-case="2">„Bin Kapitalanleger, suche MFH bis 2 Mio im Raum Offenbach, Eigenkapital vorhanden, kaufe seit 10 Jahren."</button>
+    </div>
+    <div id="demo-result" style="display:none;background:var(--bg);border:1px solid #e5e7eb;border-radius:10px;padding:24px">
+      <div style="font-size:.85rem;color:var(--muted);margin-bottom:12px">KI-QUALIFIZIERUNG</div>
+      <div id="demo-rows"></div>
+      <div id="demo-verdict" style="margin-top:14px;font-weight:700"></div>
+      <div id="demo-action" style="color:var(--muted);font-size:.92rem;margin-top:6px"></div>
+    </div>
+  </div>
+  <style>
+    .demo-btn{text-align:left;padding:14px 18px;border:1px solid #e5e7eb;border-radius:8px;background:var(--bg);cursor:pointer;font-size:.95rem;color:var(--text)}
+    .demo-btn:hover{border-color:var(--accent)}
+    .demo-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #eee;font-size:.95rem}
+  </style>
+  <script>
+    const cases=[
+      {rows:[["Finanzierung","unbekannt","#b91c1c"],["Suchprofil","unklar","#b91c1c"],["Ernsthaftigkeit","niedrig — Standardfrage ohne Substanz","#b91c1c"]],verdict:"⚠ Niedrige Priorität — automatische Rückfrage gesendet",action:"Die KI fragt automatisch nach Budget und Finanzierungsstatus. Ihr Team sieht diese Anfrage erst, wenn Substanz da ist."},
+      {rows:[["Finanzierung","✓ Zusage liegt vor (Sparkasse)","#15803d"],["Suchprofil","✓ 4 Zimmer, bis 650.000 €","#15803d"],["Ernsthaftigkeit","hoch — konkreter Zeitwunsch","#15803d"]],verdict:"🔥 Heißer Lead — direkt in Ihren Kalender",action:"Die KI schlägt automatisch 3 Besichtigungstermine vor und legt den Lead mit allen Daten in Ihr CRM."},
+      {rows:[["Finanzierung","✓ Eigenkapital, erfahrener Käufer","#15803d"],["Suchprofil","✓ MFH bis 2 Mio, Raum Offenbach","#15803d"],["Ernsthaftigkeit","hoch — wiederkehrender Investor","#15803d"]],verdict:"🔥 A-Kunde — persönliche Betreuung empfohlen",action:"Die KI markiert Investoren-Leads für Sie persönlich und gleicht das Suchprofil laufend mit neuen Objekten ab."}
+    ];
+    document.querySelectorAll('.demo-btn').forEach(b=>b.addEventListener('click',()=>{
+      const c=cases[b.dataset.case];
+      const rowsEl=document.getElementById('demo-rows');
+      rowsEl.replaceChildren();
+      c.rows.forEach(r=>{
+        const row=document.createElement('div');row.className='demo-row';
+        const k=document.createElement('span');k.textContent=r[0];
+        const v=document.createElement('span');v.textContent=r[1];v.style.color=r[2];v.style.fontWeight='600';
+        row.append(k,v);rowsEl.append(row);
+      });
+      document.getElementById('demo-verdict').textContent=c.verdict;
+      document.getElementById('demo-action').textContent=c.action;
+      document.getElementById('demo-result').style.display='block';
+    }));
+  </script>
+</section>
+
 <section id="kontakt">
   <div class="wrap" style="text-align:center;max-width:640px">
     <h2>15 Minuten. Ihre echten Anfragen. Live.</h2>
